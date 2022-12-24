@@ -368,21 +368,6 @@ class MB_LE(object):
              print("Writing time           : %g s" % writeCPUTime)
 
         sim.end()
-        # pn_spikes = neo.SpikeTrain(pn_spikes[0], t_start=0, t_stop=self.sim_t, units='ms')
-        # kc_spikes = neo.SpikeTrain(kc_spikes[0], t_start=0, t_stop=self.sim_t, units='ms')
-        #
-        # kc_a_spikes = neo.SpikeTrain(kc_a_spikes[0], t_start=0, t_stop=self.sim_t, units='ms')
-        #en_spiketrain= neo.SpikeTrain(en_spikes, t_start=0, t_stop=self.sim_t, units='ms')
-        #en_a_spiketrain= neo.SpikeTrain(en_a_spikes, t_start=0, t_stop=self.sim_t, units='ms')
-        #
-        #
-        # kc_a_m_sr = instantaneous_rate(kc_a_spikes, sampling_period=50*ms)
-        # en_spiketrain =instantaneous_rate(en_spiketrain, sampling_period=50*ms)
-        # en_a_spiketrain = instantaneous_rate(en_a_spiketrain, sampling_period=50*ms)
-        #
-        # plt.plot(en_a_spiketrain.times.rescale(ms), en_a_spiketrain.rescale(10*ms), label='en_spiketrain')
-        # plt.show()
-
 
 
 
@@ -428,23 +413,6 @@ class MB_LE(object):
         kc_a_mean = calculate_group_mean_rt(kc_a_spikes, nb_kc)
 
 
-        # pn_spikes= neo.SpikeTrain(pn_spikes[0], t_start=pn_spikes[0][0], t_stop=pn_spikes[0][-1], units='ms')
-        # kc_spikes= neo.SpikeTrain(kc_spikes[0], t_start=kc_spikes[0][0], t_stop=kc_spikes[0][-1], units='ms')
-        #kc_a_spikes= neo.SpikeTrain(kc_a_spikes[0], t_start=kc_spikes[0][0], t_stop=kc_spikes[0][-1], units='ms')
-
-        #
-        # pn_inst_rate = instantaneous_rate(pn_spikes, sampling_period=10*ms)
-        # kc_inst_rate = instantaneous_rate(kc_spikes, sampling_period=10*ms)
-        # #kc_a_inst_rate = instantaneous_rate(kc_a_spikes, sampling_period=10*ms)
-        #
-        # plt.plot(pn_inst_rate.times.rescale(ms), pn_inst_rate.rescale(1/s).magnitude.flatten(), colors='r',  label='PN instantaneous rate')
-        # plt.plot(kc_inst_rate.times.rescale(ms), kc_inst_rate.rescale(1/s).magnitude.flatten(),  colors='g', label='KC instantaneous rate')
-        #plt.plot(kc_a_inst_rate.times.rescale(ms), kc_a_inst_rate.rescale(1/s).magnitude.flatten(), colors='black', label='KC-A instantaneous rate')
-
-        #plt.hlines(pn_mean, linestyle='-', label='PN mean firing rate',linewidth = 2, colors='r',  alpha = 0.5, xmin = (pn_spikes[0][0]), xmax = (pn_spikes[0][-1]))
-        # plt.hlines(kc_mean, linestyle='-', label='KC mean firing rate', linewidth = 2, colors='g',  alpha = 0.5, xmin = (kc_spikes[0][0]), xmax = (pn_spikes[0][-1]))
-
-
         # plt.hlines(kc_a_mean, linestyle='-', label='KC-A mean firing rate', linewidth = 2, colors='black',  alpha = 0.5, xmin = (kc_spikes[0][0]), xmax = (pn_spikes[0][-1]))
         plt.xlim(en_spikes.t_start, en_spikes.t_stop)
         plt.ylim(0,40)
@@ -463,52 +431,6 @@ class MB_LE(object):
         plt.savefig(figoutputpath+str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S'))+self.filename_label+".svg", format='svg')
         plt.clf()
         plt.close()
-
-
-
-        # t_start=0
-        # t_stop=en_spikes.t_stop
-        # # pn_mean = calculate_group_mean_rt(pn_spikes, nb)
-        # # kc_mean = calculate_group_mean_rt(kc_spikes, 4000)
-        # #
-        # # #sp_source_spikes= neo.SpikeTrain(sp_sc_spikes[0], t_start=sp_sc_spikes[0][0], t_stop=sp_sc_spikes[0][-1], units='ms')
-        # # pn_spikes= neo.SpikeTrain(pn_spikes[0], t_start=pn_spikes[0][0], t_stop=pn_spikes[0][-1], units='ms')
-        # # kc_spikes= neo.SpikeTrain(kc_spikes[0], t_start=kc_spikes[0][0], t_stop=kc_spikes[0][-1], units='ms')
-        # #en_spikes= neo.SpikeTrain(en_spikes[0], t_start=en_spikes[0][0], t_stop=en_spikes[0][-1], units='ms')
-        # #
-        # #
-        # fig = plt.figure(constrained_layout=True)
-        # plt.hlines(mean_firing_rate(en_spikes)*1000, linestyle='--', xmin = t_start, xmax = t_stop, label='MBON mean firing rate')
-        # plt.ylim((0,250))
-        # plt.ylabel("MBON spiking rate (Hz)")
-        # plt.savefig(figoutputpath+str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S'))+".svg", format='svg')
-        # plt.clf()
-        # plt.close()
-
-        #
-        # gs = GridSpec(3, 1, figure=fig)
-        #
-        # ax2 = fig.add_subplot(gs[0, 0])
-        # plt.hlines(pn_mean, linestyle='--', label='mean firing rate', xmin = 0, xmax=100)
-        # ax3 = fig.add_subplot(gs[1, 0])
-        # plt.hlines(kc_mean, linestyle='--', label='mean firing rate', xmin = 0, xmax=100)
-        # ax4 = fig.add_subplot(gs[2, 0])
-        #
-        # #plt.title('input rate = '+str(rate) +' Hz')
-        # plt.savefig(figoutputpath+str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S'))+".svg", format='svg')
-        # plt.clf()
-        # plt.close()
-            # plot_spikes(pn_spikes)
-        # plot_spikes(kc_spikes)
-        # plot_spikes(kc_a_spikes)
-        #
-        # # plt.figure(dpi=150)
-        # # plt.eventplot([st.magnitude for st in kc_a_spikes], linelengths=0.75, linewidths=0.75, color='black')
-        # # plt.xlabel("Time, s")
-        # # plt.ylabel("Neuron id")
-        # # plt.xlim([0, 1])
-        # # plt.show()
-        #
 
 
 

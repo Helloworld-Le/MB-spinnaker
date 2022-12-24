@@ -25,31 +25,14 @@ for i in [0.0, 0.333]:
             mb_learning = MB_LE(filename=learning_filename,t_start=t_start,t_end=t_end)
             mb_learning.run_sim()
             print('learned connections:', type(mb_learning.learned_w_kc2kc),len(mb_learning.learned_w_kc2kc))
-            #weights = mb_learning.kc2kc_a.get(["weight"], format="array")
             weights = np.array(mb_learning.learned_w_kc2kc)
             #scatter_hist(weights)
             weights = generate_pnlist(weights)
             print ('len CK2KC:', len(weights) )   
-            #for f in files_list:
-            #print(f)
-            #testing_filename = data_file_path + f
+
             testing_filename = learning_filename
             sim.setup(timestep=1.0, min_delay=1.0, max_delay=14)
             sim.set_number_of_neurons_per_core(sim.IF_curr_exp,100)
             mb_testing = MB_LE(filename=testing_filename,learned=True,w_kc2kc=weights)
             mb_testing.run_sim()
 
-
-
-# mb =MB_LE(filename='dvsdata.mat',t_start=0.5,t_end=0.6)
-# mb.run_sim()
-# print('kc2kc:', len(mb.learned_w_kc2kc), sum(mb.learned_w_kc2kc[15:20]))
-# #for i in mb.learned_w_kc2kc:
-#     #print(len(i))
-#
-# sim.setup(timestep=1.0, min_delay=1.0, max_delay=14)
-# sim.set_number_of_neurons_per_core(sim.IF_curr_exp,50)
-#
-# mb2 = MB_LE(filename='dvsdata.mat',learned=True,w_kc2kc=mb.learned_w_kc2kc)
-# mb2.run_sim()
-# print('kc2kc:', len(mb2.learned_w_kc2kc), sum(mb2.learned_w_kc2kc[15:20]))

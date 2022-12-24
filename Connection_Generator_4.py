@@ -27,17 +27,8 @@ for font_file in font_files:
 plt.rcParams['font.size'] = 16
 plt.rcParams['font.family'] = 'TeX Gyre Termes'
 plt.rcParams["mathtext.fontset"] = "stix"
-#from IPython.display import set_matplotlib_formats
-#set_matplotlib_formats('svg')
 plt.rcParams['svg.fonttype'] = 'path'
 
-
-# import numpy as np
-# x = np.linspace(0, 2*np.pi, 100)
-# y = np.sin(x)
-# plt.plot(x, y)
-# #plt.show()
-# plt.savefig('test_fig.svg')
 
 
 def s_generator(pre_pop_size, post_pop_size, group=1, sparseness=5, bias=0, w_u=1.4, w_std=0, block=True):
@@ -53,9 +44,9 @@ def s_generator(pre_pop_size, post_pop_size, group=1, sparseness=5, bias=0, w_u=
     S = np.full(shape=(pre_pop_size, post_pop_size), dtype=float, fill_value= np.nan)
     for i in range(post_pop_size):
         nb_pre_p_post = int(sparseness + bias*np.random.rand())
-        #print(nb_pre_p_post)
+
         sw_pre_p_post = np.random.normal(loc=w_u, scale=w_std, size=nb_pre_p_post).tolist()
-        #print(sw_pre_p_post)
+
         pre_group_size = pre_pop_size // group
         if block is True:
             pre_group_low = i * group // post_pop_size * pre_group_size
@@ -64,12 +55,11 @@ def s_generator(pre_pop_size, post_pop_size, group=1, sparseness=5, bias=0, w_u=
             pre_group_low = int(i * group / post_pop_size * pre_group_size)
         pre_group_high = pre_group_low + pre_group_size
 
-        # s_pre_p_post_i = np.random.randint(low=pre_group_low,high=pre_group_high,size=nb_pre_p_post).tolist()
+
         s_pre_p_post_i = np.random.randint(low=pre_group_low, high=pre_group_high, size=nb_pre_p_post,dtype=int)
-        #print(pre_group_low, pre_group_high)
+
         s_pre_p_post_i[s_pre_p_post_i >=(pre_pop_size)] -= pre_pop_size
-        # print(s_pre_p_post_i)
-        #print(pre_group_low, pre_group_high)
+
         S[s_pre_p_post_i, i] = sw_pre_p_post
         # print( nb_pre_p_post, pre_group_low,pre_group_high)
 
@@ -151,12 +141,6 @@ def scatter_hist(S):
 
 
 
-    # cb1 = plt.colorbar(sc, fraction=0.03, pad=0.05)
-    # tick_locator = ticker.MaxNLocator(nbins=3)  # colorbar上的刻度值个数
-    # cb1.locator = tick_locator
-    # cb1.set_ticks([0, 0.5, 1])
-    # cb1.update_ticks()
-    # plt.show()
 
 def generate_pnlist(S):
     lista= []
@@ -182,14 +166,14 @@ S_pn2kc = s_generator(pre_pop_size=nb_pn,post_pop_size=nb_kc,group=1,sparseness=
 
 S_kc2kc = s_generator(pre_pop_size=nb_kc,post_pop_size=nb_kc,group=1,sparseness=1000,bias = 0, w_u=0.5,block=True)
 
-#
+
 # S_pn2kc = s_generator(pre_pop_size=nb_pn,post_pop_size=nb_kc,group=1,sparseness=4,bias=1,w_u= 0.5, w_std=0, block=True)
 #
 # S_kc2kc = s_generator(pre_pop_size=nb_kc,post_pop_size=nb_kc,group=4,sparseness=500,w_u=0.2,block=True)
 
 #fig = plt.figure(figsize=(12, 10),dpi=100)
 
-# #
+#
 # scatter_hist(S_pn2kc)
 #
 # scatter_hist(S_kc2kc)

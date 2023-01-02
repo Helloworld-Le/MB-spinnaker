@@ -210,30 +210,7 @@ def file2input(filename, t_start=0, t_end=1):
 
     sim_t = t_end-t_start
     return input_spikes,max_t
-def odomfile2input(filename, t_start=0, t_end=1):
-    data = sio.loadmat(filename)
-    ex,ey,et = data['ex'][0],data['ey'][0],data['et'][0]
-    x_c, y_c, t_c = DVS.chop_frame(ex, ey, et)
-    idx, t = DVS.smooth(x_c, y_c, t_c)
-    idx_dvs,t_dvs = DVS.align_start(idx, t)
 
-    t_dvs = t_dvs -min(t_dvs )
-    max_t = np.max(t_dvs)
-
-    t_start = t_start*max_t
-    t_end = t_end*max_t
-
-    index_start = (np.abs(t_dvs-t_start)).argmin()
-    index_end = (np.abs(t_dvs-t_end)).argmin()
-
-    n_list = idx_dvs.copy()[index_start:index_end]
-    t_list = t_dvs.copy()[index_start:index_end]
-
-    input_spikes = []
-    for i in range(nb_pn):
-        input_spikes.append(t_list[np.where(n_list==i)])
-
-    return input_spikes,max_t
 class MB_LE(object):
 
     def __init__(self, filename, t_start=0, t_end=1 , learned = False, w_kc2kc=0):
@@ -250,6 +227,7 @@ class MB_LE(object):
         self.t_end = t_end
         input_spikes, self.sim_t = file2input(filename, t_start, t_end)
         self.sim_t = self.sim_t*t_end
+        
         print ('simulation time=', self.sim_t)
 
         self.w_kc2kc = w_kc2kc
@@ -262,7 +240,7 @@ class MB_LE(object):
 
         # self.pns = sim.Population(nb_pn , sim.IF_curr_exp(**PN_cell_params),
         #                           label = "PN",initial_values={'v': PN_cell_params['v_rest']})
-        # #
+
         self.pns = sim.Population(nb_pn, sim.extra_models.IFCurrExpCa2Adaptive(**PN_cell_params),
                                        label = "PN",
         #                 #initial_values={'v':pn_ini_v_distr})
@@ -288,10 +266,7 @@ class MB_LE(object):
         self.dvs2pn = sim.Projection(self.spike_source , self.pns , sim.OneToOneConnector() ,
                                      sim.StaticSynapse(weight = 2.0),
                                      receptor_type = 'excitatory')
-        # self.pn2kc = sim.Projection(self.pns , self.kcs , sim.FromListConnector(S_pn2kc,  column_names=["weight"]),
-        #                             receptor_type = 'excitatory')
-        # self.pn2kc_a = sim.Projection(self.pns , self.kcs_a , sim.FromListConnector(S_pn2kc, column_names=["weight"]),
-        #                             receptor_type = 'excitatory')
+        
         self.pn2kc = sim.Projection(self.pns , self.kcs , sim.FromListConnector(S_pn2kc,  column_names=["weight"]),
                                receptor_type = 'excitatory')
         self.pn2kc_a = sim.Projection(self.pns , self.kcs_a ,sim.FromListConnector(S_pn2kc,  column_names=["weight"]),
@@ -315,8 +290,6 @@ class MB_LE(object):
             self.kc2kc_a = sim.Projection(self.kcs , self.kcs_a , sim.FromListConnector(w_kc2kc,column_names=["weight"]),
                                           receptor_type = 'inhibitory')
             print('len KC2KC', len(S_kc2kc),len(w_kc2kc), 'learned percentage:', len(w_kc2kc)/len(S_kc2kc) )
-            # self.kc2kc_a = sim.Projection(self.kcs , self.kcs_a , sim.FromListConnector(S_kc2kc),
-            #                               synapse_type=sim.StaticSynapse(weight = w_kc2kc, delay = 1.0) ,receptor_type = 'inhibitory')
 
         path,filename=os.path.split(self.filename)
         self.filename_label = str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S'))+'_file='+filename+'_t='+\

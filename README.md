@@ -12,3 +12,4 @@ Insturcitons for using SpiNNaker: http://spinnakermanchester.github.io/
 
 
 
+SeqSLAM code: https://github.com/tmadl/pySeqSLAM

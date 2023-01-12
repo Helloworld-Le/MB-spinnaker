@@ -7,12 +7,11 @@ np.random.seed(2022)
 from MB_main_11_ad_offset import *
 import os
 
-data_file_path = '/media/le/121942f7-1af1-4374-bc84-6f60a0cc0259/videos/data_mat/231023newdataset/840/'
-#data_file_path = '/media/le/121942f7-1af1-4374-bc84-6f60a0cc0259/videos/data_mat/1015originaltimestamp/'
-#data_file_path = '/media/le/121942f7-1af1-4374-bc84-6f60a0cc0259/videos/1215_outdoor_displacement_data/normal_angle/mid/dvs_eventsframes/frames_parallel/'
+data_file_path = '/media/le/121942f7-1af1-4374-bc84-6f60a0cc0259/videos/data_mat/840/'
+
 files_list = os.listdir(data_file_path)
 files_list.sort(reverse= False)
-#learningfiles = os.listdir('/media/le/121942f7-1af1-4374-bc84-6f60a0cc0259/videos/data_mat/BW_MSc (3rd copy)/angular/840/wide_angle_learning_file/')
+
 learningfiles = files_list
 print(files_list)
 

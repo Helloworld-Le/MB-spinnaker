@@ -12,5 +12,5 @@ Insturcitons for using SpiNNaker: http://spinnakermanchester.github.io/
 
 
 
-SeqSLAM code: https://github.com/tmadl/pySeqSLAM  (Python)
+SeqSLAM code: https://github.com/tmadl/pySeqSLAM  (Python) \
 SeqSLAM2.0 code: https://github.com/qcr/openseqslam2 (Matlab)

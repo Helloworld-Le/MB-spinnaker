@@ -1,6 +1,4 @@
-## this code test one-shot learing by:
-##    learning one segment on a long route, then testing all the other runs.
-##    also change the location and length of learning segment, testing all the other runs
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
